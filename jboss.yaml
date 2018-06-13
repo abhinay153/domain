@@ -1,0 +1,18 @@
+---
+- hosts: jboss
+  become: true
+  vars_files:
+      - vars.yaml
+  roles:
+  - oracle-roles
+  - wildfly-roles
+
+
+#- hosts: jboss-slave
+#  become: true
+#  vars_files:
+#      - vars.yaml
+#  roles:
+ # - oracle-roles
+#  - wildfly-slave-roles
+

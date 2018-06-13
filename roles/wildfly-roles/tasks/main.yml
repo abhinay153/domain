@@ -1,0 +1,138 @@
+---
+- name: Install required packages
+  apt:
+    name: "{{item}}"
+    state: installed
+  with_items:
+      - unzip
+  when: ansible_os_family == 'Debian'
+
+- name: Install required packages
+  yum:
+    name: "{{item}}"
+    state: installed
+  with_items:
+    - unzip
+  when: ansible_os_family == 'RedHat'
+
+
+
+- name: Create wildfly user
+  user:
+    name: "{{wildfly_user}}"
+    createhome: no
+    shell: /bin/bash
+
+- name: copy tar file to source
+  copy:
+    src: /home/ubuntu/jboss/wildfly-10.0.0.Final.tar.gz
+    dest: /usr
+    owner: "{{wildfly_user}}"
+    group: "{{wildfly_user}}"
+    mode: 0777
+
+- name: Download and extract tarball
+  unarchive:
+ #   src: "http://download.jboss.org/wildfly/10.0.0.Final/wildfly-10.0.0.Final.tar.gz"
+    src: /usr/wildfly-10.0.0.Final.tar.gz
+    dest: "{{wildfly_basedir}}"
+    creates: "{{wildfly_basedir}}/wildfly-{{wildfly_version}}"
+    remote_src: yes
+    owner: "{{wildfly_user}}"
+    group: "{{wildfly_user}}"
+    mode: 0777
+
+- name: Make symbolic link to wildfly home
+  file:
+    src: "{{wildfly_basedir}}/wildfly-{{wildfly_version}}"
+    dest: "{{wildfly_home}}"
+    state: link
+    owner: "{{wildfly_user}}"
+    group: "{{wildfly_user}}"
+    mode: 0777
+
+- name: Make sure config dir exists
+  file:
+    path: /etc/wildfly
+    state: directory
+    owner: "{{wildfly_user}}"
+    group: "{{wildfly_user}}"
+
+- name: Copy config file
+  copy:
+    src: wildfly.conf
+    dest: /etc/wildfly/wildfly.conf
+    mode: 0644
+
+- name: Copy service script
+  template:
+    src: wildfly.service
+    dest: /lib/systemd/system
+    mode: 0644
+
+- name: Link to systemd service
+  file:
+    src: /lib/systemd/system/wildfly.service
+    dest: /etc/systemd/system/multi-user.target.wants/wildfly.service
+    state: link
+    mode: 0777
+
+- name: Copy management console user configuration
+  template:
+    src: "{{item}}"
+    dest: "{{wildfly_home}}/domain/configuration"
+    owner: "{{wildfly_user}}"
+    group: "{{wildfly_user}}"
+    mode: 0777
+  with_items:
+    - mgmt-users.properties
+    - mgmt-groups.properties
+
+- name: Change auth dir permissios to allow CLI deployments
+  file:
+    path: "{{wildfly_home}}/domain/tmp/auth"
+    mode: 0744
+    state: directory
+
+- name: Copying host.xml configuration file
+  template: src=host.xml dest={{wildfly_home}}/domain/configuration/
+  notify: restart jboss
+  become: yes
+
+
+
+#- name: updating address
+#  replace:
+#    dest: /opt/wildfly/domain/configuration/host.xml
+#    regexp: '{jboss.bind.address.management:127.0.0.1}'
+#    replace: '{jboss.bind.address.management:0.0.0.0}'
+
+#- name: adding updating address
+#  replace:
+#    dest: /opt/wildfly/domain/configuration/host.xml
+#    regexp: '{jboss.bind.address:127.0.0.1}'
+#    replace: '{jboss.bind.address:0.0.0.0}'
+
+- name: copy control script
+  template:
+    src: launch.sh
+    dest: "{{wildfly_home}}/bin"
+    owner: "{{wildfly_user}}"
+    group: "{{wildfly_user}}"
+    mode: 0777
+  notify: Start wildfly service
+
+- name: Copy execute script
+  template:
+    src: run.sh
+    dest: "{{wildfly_home}}/bin"
+    owner: "{{wildfly_user}}"
+    group: "{{wildfly_user}}"
+    mode: 0777
+
+- name: execute the script
+  command: sh "{{wildfly_home}}"/bin/run.sh
+
+- name: adding user
+  #shell: sh /opt/wildfly/bin/add-user.sh  test1  test1
+  raw: "export JAVA_HOME=/opt/jdk1.8.0_161 && sh /opt/wildfly/bin/add-user.sh {{user_name}} {{password}}"
