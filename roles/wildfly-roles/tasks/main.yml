@@ -125,7 +125,7 @@
 - name: copy control script
   template:
     src: launch.sh
-    dest: "/opt"
+    dest: /opt
     owner: "{{wildfly_user}}"
     group: "{{wildfly_user}}"
     mode: 0777
@@ -143,7 +143,7 @@
 - name: Copy execute script
   template:
     src: run.sh
-    dest: "/opt"
+    dest: /opt
     owner: "{{wildfly_user}}"
     group: "{{wildfly_user}}"
     mode: 0777
