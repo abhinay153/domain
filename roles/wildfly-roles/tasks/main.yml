@@ -23,18 +23,18 @@
     createhome: no
     shell: /bin/bash
 
-#- name: copy tar file to source
-#  copy:
-#    src: /home/ubuntu/jboss/wildfly-10.0.0.Final.tar.gz
-#    dest: /usr
-#    owner: "{{wildfly_user}}"
-#    group: "{{wildfly_user}}"
-#    mode: 0777
+- name: copy tar file to source
+  copy:
+    src: /opt/jboss/wildfly-10.0.0.Final.tar.gz
+    dest: /opt
+    owner: "{{wildfly_user}}"
+    group: "{{wildfly_user}}"
+    mode: 0777
 
 - name: Download and extract tarball
   unarchive:
  #   src: "http://download.jboss.org/wildfly/10.0.0.Final/wildfly-10.0.0.Final.tar.gz"
-    src: /opt/jboss/wildfly-10.0.0.Final.tar.gz
+    src: /opt/wildfly-10.0.0.Final.tar.gz
     dest: "{{wildfly_basedir}}"
     creates: "{{wildfly_basedir}}/wildfly-{{wildfly_version}}"
     remote_src: yes

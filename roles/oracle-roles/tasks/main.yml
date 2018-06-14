@@ -10,10 +10,10 @@
 #    headers: 'Cookie:oraclelicense=accept-securebackup-cookie'
 #    dest: "/home/ubuntu/jboss/jdk-8u161-linux-x64.tar.gz"
 
-#- name: copy jdk file
-#  copy:
-#    src: /home/ubuntu/jboss/jdk-8u161-linux-x64.tar.gz
-#    dest: /opt
+- name: copy jdk file
+  copy:
+    src: /opt/jboss/jdk-8u161-linux-x64.tar.gz
+    dest: /opt
 
 #- name: Unarchive jdk
 #  unarchive:
@@ -25,7 +25,7 @@
 #    group: root
 
 - name: unarchive jdk
-  command: tar -xvzf /opt/jboss/jdk-8u161-linux-x64.tar.gz -C /opt/jboss
+  command: tar -xvzf /opt/jdk-8u161-linux-x64.tar.gz -C /opt/jboss
 
 - name: Copy environment script
   template:
