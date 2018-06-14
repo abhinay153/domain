@@ -1,2 +1,3 @@
 user_name: matilda
-password: matilda@jboss 
+password: matilda@jboss
+jboss_version: 6 
