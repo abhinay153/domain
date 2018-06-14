@@ -149,10 +149,11 @@
     mode: 0777
 
 
-
-
 - name: execute the script
-  command: sh "{{wildfly_home}}"/bin/run.sh
+  command: sh /opt/run.sh
+
+#-name: execute the script
+#  command: sh "{{wildfly_home}}"/bin/run.sh
 
 - name: adding user
   #shell: sh /opt/wildfly/bin/add-user.sh  test1  test1
