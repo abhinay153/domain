@@ -1,11 +1,12 @@
----
-- name: Start wildfly service
-  service:
-    name: wildfly
-    enabled: yes
-    state: started
-- name: Restart wildfly service
-  service:
-    name: wildfly
-    enabled: yes 
-    state: restarted
+#---
+#- name: Start wildfly service
+#  service:
+#    name: wildfly
+#    enabled: yes
+#    state: started
+#- name: Restart wildfly service
+#  service:
+#    name: wildfly
+#    enabled: yes 
+
+# state: restarted
