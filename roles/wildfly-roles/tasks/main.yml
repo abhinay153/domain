@@ -96,8 +96,8 @@
 
 - name: Copying host.xml configuration file
   template: src=host.xml dest={{wildfly_home}}/domain/configuration/
-  notify: restart jboss
-  become: yes
+#  notify: restart jboss
+#  become: yes
 
 
 
