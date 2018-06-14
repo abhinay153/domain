@@ -129,7 +129,7 @@
     owner: "{{wildfly_user}}"
     group: "{{wildfly_user}}"
     mode: 0777
-  notify: Start wildfly service
+#  notify: Start wildfly service
 
 
 #- name: Copy execute script
