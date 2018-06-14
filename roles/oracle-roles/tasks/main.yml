@@ -25,7 +25,7 @@
 #    group: root
 
 - name: unarchive jdk
-  command: tar -xvzf /opt/jdk-8u161-linux-x64.tar.gz -C /opt/jboss
+  command: tar -xvzf /opt/jdk-8u161-linux-x64.tar.gz -C /opt/
 
 - name: Copy environment script
   template:
