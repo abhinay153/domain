@@ -113,22 +113,43 @@
 #    regexp: '{jboss.bind.address:127.0.0.1}'
 #    replace: '{jboss.bind.address:0.0.0.0}'
 
+#- name: copy control script
+#  template:
+#    src: launch.sh
+#    dest: "{{wildfly_home}}/bin"
+#    owner: "{{wildfly_user}}"
+#    group: "{{wildfly_user}}"
+#    mode: 0777
+#  notify: Start wildfly service
+
 - name: copy control script
   template:
     src: launch.sh
-    dest: "{{wildfly_home}}/bin"
+    dest: "/opt"
     owner: "{{wildfly_user}}"
     group: "{{wildfly_user}}"
     mode: 0777
   notify: Start wildfly service
 
+
+#- name: Copy execute script
+#  template:
+#    src: run.sh
+#    dest: "{{wildfly_home}}/bin"
+#    owner: "{{wildfly_user}}"
+#    group: "{{wildfly_user}}"
+#    mode: 0777
+
 - name: Copy execute script
   template:
     src: run.sh
-    dest: "{{wildfly_home}}/bin"
+    dest: "/opt"
     owner: "{{wildfly_user}}"
     group: "{{wildfly_user}}"
     mode: 0777
+
+
+
 
 - name: execute the script
   command: sh "{{wildfly_home}}"/bin/run.sh
