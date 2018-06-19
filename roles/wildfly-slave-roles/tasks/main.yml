@@ -96,10 +96,44 @@
 
 - name: Copying host.xml configuration file
   template: src=host.xml dest={{wildfly_home}}/domain/configuration/
-#  notify: restart jboss
-#  become: yes
 
+#- name: replacing name as slave
+#  replace:
+#    dest: /opt/wildfly/domain/configuration/host.xml
+#    regexp: 'name="master"'
+#   replace: 'name="slave"'
 
+#- name: Added server identities  in the file
+#  blockinfile:
+#    dest: /opt/wildfly/domain/configuration/host.xml
+#    insertafter: <security-realm name="ManagementRealm">
+#    block: |
+#          <server-identities>
+#           <secret value="bWF0aWxkYUBqYm9zcw=="/>
+#          </server-identities>
+#- name: uncomment 
+#  replace:  
+#    dest: /opt/wildfly/domain/configuration/host.xml
+#    regexp: '# BEGIN ANSIBLE MANAGED BLOCK'
+#    replace: ''
+
+#- name: uncomment
+#  replace: 
+#    dest : /opt/wildfly/domain/configuration/host.xml
+#    regexp: '# END ANSIBLE MANAGED BLOCK' 
+#   replace: ''
+
+#- name: replacing local
+#  replace:
+#    dest: /opt/wildfly/domain/configuration/host.xml
+#    regexp: '<local/>'
+#    replace: <!-- <local/> -->
+
+#- name: Insert a line at the end of a file.
+#  lineinfile:
+#    dest: /opt/wildfly/domain/configuration/host.xml
+#    line:  <remote protocol="remote" host="192.168.10.14" port="9999" username="matilda" security-realm="ManagementRealm"/>
+#    insertbefore: </domain-controller>
 
 #- name: updating address
 #  replace:
@@ -113,14 +147,6 @@
 #    regexp: '{jboss.bind.address:127.0.0.1}'
 #    replace: '{jboss.bind.address:0.0.0.0}'
 
-#- name: copy control script
-#  template:
-#    src: launch.sh
-#    dest: "{{wildfly_home}}/bin"
-#    owner: "{{wildfly_user}}"
-#    group: "{{wildfly_user}}"
-#    mode: 0777
-#  notify: Start wildfly service
 
 - name: copy control script
   template:
@@ -129,16 +155,6 @@
     owner: "{{wildfly_user}}"
     group: "{{wildfly_user}}"
     mode: 0777
-#  notify: Start wildfly service
-
-
-#- name: Copy execute script
-#  template:
-#    src: run.sh
-#    dest: "{{wildfly_home}}/bin"
-#    owner: "{{wildfly_user}}"
-#    group: "{{wildfly_user}}"
-#    mode: 0777
 
 - name: Copy execute script
   template:
@@ -155,6 +171,6 @@
 #-name: execute the script
 #  command: sh "{{wildfly_home}}"/bin/run.sh
 
-- name: adding user
+#- name: adding user
   #shell: sh /opt/wildfly/bin/add-user.sh  test1  test1
-  raw: "export JAVA_HOME=/opt/jdk1.8.0_161 && sh /opt/wildfly/bin/add-user.sh {{user_name}} {{password}}"
+#  raw: "export JAVA_HOME=/opt/jdk1.8.0_161 && sh /opt/wildfly/bin/add-user.sh {{user_name}} {{password}}"

@@ -1,0 +1,21 @@
+---
+- hosts: jboss
+  tasks:
+#  vars_files:
+#      - vars.yaml
+   
+   - name: Set Apache URL
+     set_fact:
+         jboss: 6
+ 
+#   - name: Conditionally 
+#    include_vars: vars.yaml
+
+   - name: Install required packages
+     apt:
+       name: "{{item}}"
+       state: installed
+     with_items:
+         - yyy
+     when: jboss == '7'
+

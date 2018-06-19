@@ -4,19 +4,19 @@
   vars_files:
       - vars.yaml
   roles:
-   - oracle-roles
-   - wildfly-roles
-#  when: jboss_version == '7'
+      - oracle-roles
+      - wildfly-roles
+#  when: "jboss_version == '7'"
 #    - { role: oracle-roles, when: jboss_version == '6' }
 #    - { role: wildfly-roles, when: jboss_version == '6' }
 
 
 
-#- hosts: jboss-slave
-#  become: true
-#  vars_files:
-#      - vars.yaml
-#  roles:
- # - oracle-roles
-#  - wildfly-slave-roles
+- hosts: jboss-slave
+  become: true
+  vars_files:
+      - vars1.yaml
+  roles:
+      - oracle-roles
+      - wildfly-slave-roles
 

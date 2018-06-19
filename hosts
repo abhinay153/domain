@@ -1,9 +1,9 @@
 
 
 [jboss]
-192.168.10.14 ansible_user=ubuntu
+192.168.10.14 ansible_user=root
 
 
-#[jboss-slave]
-#34.216.202.136 ansible_user=ubuntu
+[jboss-slave]
+192.168.10.34  ansible_user=root
 
