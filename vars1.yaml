@@ -1,4 +1,4 @@
-name: slave1
+name: slave
 master_ip: 192.168.10.14
 user_name: matilda
-password: bWF0aWxkYUBqYm9zcw==
+password: bWF0aWxkYQ==
